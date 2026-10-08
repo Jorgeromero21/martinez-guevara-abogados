@@ -57,12 +57,12 @@ export function AreasIndex({ areas }: { areas: PracticeArea[] }) {
               aria-expanded={isOpen}
               aria-controls={panelId}
               onClick={(e) => toggle(area.slug, e.currentTarget.parentElement!)}
-              className="group grid w-full grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-4 py-8 text-left md:grid-cols-[4rem_1fr_1fr_auto] md:py-10"
+              className="group grid w-full grid-cols-[2rem_minmax(0,1fr)_auto] items-baseline gap-x-3 py-8 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto] sm:gap-x-4 text-left md:grid-cols-[4rem_1fr_1fr_auto] md:py-10"
             >
               <span className="text-xs tabular-nums text-muted">0{i + 1}</span>
               <span
                 className={cn(
-                  "serif text-[2.4rem] transition-[color,transform] duration-500 ease-out sm:text-5xl md:text-6xl lg:text-7xl",
+                  "serif text-[1.85rem] transition-[color,transform] duration-500 ease-out [overflow-wrap:anywhere] sm:text-5xl md:text-6xl lg:text-7xl",
                   open && !isOpen ? "text-ink/30" : "text-ink",
                   isOpen ? "italic md:translate-x-3" : "md:group-hover:translate-x-3",
                 )}

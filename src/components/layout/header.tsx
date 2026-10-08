@@ -70,7 +70,7 @@ export function Header() {
               aria-controls="menu-movil"
               className="flex h-11 items-center gap-3 text-[0.75rem] uppercase tracking-[0.18em] lg:hidden"
             >
-              Menú
+              <span className="max-sm:sr-only">Menú</span>
               <span className="flex w-6 flex-col gap-[6px]" aria-hidden>
                 <span className="h-px w-full bg-current" />
                 <span className="h-px w-full bg-current" />

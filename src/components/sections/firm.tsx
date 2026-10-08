@@ -48,13 +48,13 @@ export function Firm() {
             </Reveal>
 
             <Reveal delay={0.2} className="mt-16 lg:mb-14 lg:mt-auto">
-              <dl className="grid max-w-xl grid-cols-3 gap-6 border-t border-line-strong pt-8">
+              <dl className="grid max-w-xl grid-cols-3 gap-4 border-t border-line-strong pt-8 sm:gap-6">
                 {facts.map((fact) => (
                   <div key={fact.label}>
                     <dt className="sr-only">{fact.label}</dt>
                     <dd>
                       <span className="serif block text-3xl leading-none sm:text-[2.6rem]">{fact.value}</span>
-                      <span className="mt-3 block text-[0.6875rem] uppercase tracking-[0.18em] text-muted">
+                      <span className="mt-3 block text-[0.625rem] uppercase leading-snug tracking-[0.14em] text-muted sm:text-[0.6875rem] sm:tracking-[0.18em]">
                         {fact.label}
                       </span>
                     </dd>

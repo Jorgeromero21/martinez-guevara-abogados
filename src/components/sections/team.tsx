@@ -75,7 +75,7 @@ function Profile({ member }: { member: TeamMember }) {
 
       <div
         className={cn(
-          "mt-8 flex items-baseline justify-between gap-4 border-b pb-5",
+          "mt-8 flex flex-col items-start gap-2 border-b pb-5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4",
           lead ? "border-slate" : "border-ink",
         )}
       >

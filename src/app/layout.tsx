@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Inter_Tight } from "next/font/google";
+import { AnchorScroll } from "@/components/layout/anchor-scroll";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Intro, introScript } from "@/components/layout/intro";
@@ -74,6 +75,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="contenido">{children}</main>
         <Footer />
         <WhatsAppFab />
+        <AnchorScroll />
       </body>
     </html>
   );

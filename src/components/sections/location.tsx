@@ -1,34 +1,25 @@
 import { ArrowUpRight, MapPin } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "@/components/motion/reveal";
 import { sectionIds, site } from "@/content/site";
+import { OfficeMap } from "./office-map";
 
 const { lat, lng, mapsUrl } = site.location;
-/** Mapa incrustado de Google (no requiere clave de API). */
-const embedUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=17&hl=es&output=embed`;
 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 
 /**
- * Ubicación del despacho: mapa a todo el ancho, en escala de grises para
- * integrarse con la paleta (recupera el color al pasar el cursor), y una
- * ficha con la dirección y accesos directos a Google Maps.
+ * Ubicación del despacho: mapa interactivo a todo el ancho (gris; a color al
+ * pasar el ratón o tocarlo) y una ficha con la dirección y accesos directos a
+ * Google Maps. En móvil el mapa es más bajo y la ficha va debajo, para que
+ * siempre quede espacio por donde seguir deslizando la página.
  */
 export function Location() {
   return (
     <section id={sectionIds.location} aria-label="Ubicación" className="border-t border-line">
       <div className="relative">
-        <div className="group relative h-[28rem] w-full overflow-hidden bg-paper-deep md:h-[36rem]">
-          <iframe
-            src={embedUrl}
-            title={`Mapa de ubicación: ${site.contact.office}, ${site.contact.city}`}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            allowFullScreen
-            className="absolute inset-0 h-full w-full border-0 grayscale-[0.9] contrast-[1.05] transition-[filter] duration-700 ease-out group-hover:grayscale-0"
-          />
-        </div>
+        <OfficeMap className="h-[22rem] w-full md:h-[36rem]" />
 
         <div className="shell md:pointer-events-none md:absolute md:inset-x-0 md:top-1/2 md:-translate-y-1/2">
-          <Reveal className="-mt-16 md:pointer-events-auto md:mt-0 md:max-w-lg">
+          <Reveal className="md:pointer-events-auto md:max-w-lg">
             <div className="relative bg-ink p-8 text-paper shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)] sm:p-10">
               <p className="label text-on-night-muted">Ubicación</p>
               <h2 className="serif mt-6 text-4xl md:text-5xl">

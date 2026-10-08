@@ -44,7 +44,7 @@ export function Contact() {
                       <span className="w-24 shrink-0 text-[0.6875rem] uppercase tracking-[0.2em] text-muted">
                         {c.label}
                       </span>
-                      <span className="min-w-0 [overflow-wrap:anywhere] text-ink">{c.value}</span>
+                      <span className="min-w-0 text-[0.9375rem] text-ink [overflow-wrap:anywhere] sm:text-base">{c.value}</span>
                     </span>
                     <ArrowUpRight
                       size={18}
