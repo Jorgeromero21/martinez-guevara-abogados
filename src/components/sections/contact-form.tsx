@@ -8,6 +8,9 @@ import { cn } from "@/lib/cn";
 import { whatsappUrl } from "@/lib/contact";
 import { easeOut } from "@/lib/motion";
 
+/** Ancla del formulario: en móvil, los enlaces a "Contacto" llevan directo aquí (ver AnchorScroll). */
+export const formAnchor = "solicitud";
+
 type FieldName = "fullName" | "email" | "area" | "message";
 type Errors = Partial<Record<FieldName, string>>;
 
@@ -64,7 +67,7 @@ export function ContactForm() {
   const clear = (name: FieldName) => errors[name] && setErrors((prev) => ({ ...prev, [name]: undefined }));
 
   return (
-    <form noValidate onSubmit={onSubmit} className="bg-paper-deep/70 p-7 sm:p-12">
+    <form id={formAnchor} noValidate onSubmit={onSubmit} className="scroll-mt-24 bg-paper-deep/70 p-7 sm:p-12">
       <p className="text-[0.6875rem] uppercase tracking-[0.2em] text-muted">Solicitud de consulta</p>
       <p className="serif mt-4 text-3xl">Cuéntenos lo esencial.</p>
 
