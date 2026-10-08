@@ -1,8 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import Image from "next/image";
 import Link from "next/link";
+import { ScrollCamera } from "@/components/motion/scroll-camera";
 import { ButtonLink } from "@/components/ui/button";
 import { areaAnchor, practiceAreas } from "@/content/practice-areas";
 import { contactCta, sectionIds } from "@/content/site";
@@ -11,6 +11,7 @@ import { easeOut } from "@/lib/motion";
 /**
  * Portada a sangre completa: columnas en blanco y negro, titular de gran
  * formato abajo a la izquierda y el índice de especialidades como zócalo.
+ * Al bajar, la cámara "sube" por las columnas (ScrollCamera, movimiento rise).
  */
 export function Hero() {
   const reduce = useReducedMotion();
@@ -36,13 +37,13 @@ export function Hero() {
         animate={{ scale: 1 }}
         transition={{ duration: 2.4, delay: wait, ease: easeOut }}
       >
-        <Image
+        <ScrollCamera
           src="/images/photos/hero-columnas.jpg"
           alt="Columnas neoclásicas de un edificio judicial vistas desde abajo"
-          fill
+          move="rise"
+          range="leave"
           preload
-          sizes="100vw"
-          className="photo object-cover object-[60%_center]"
+          imageClassName="photo object-[60%_center]"
         />
       </motion.div>
       <div aria-hidden className="absolute inset-0 -z-10 bg-night/60" />

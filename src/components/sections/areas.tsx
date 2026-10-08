@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/reveal";
+import { ScrollCamera } from "@/components/motion/scroll-camera";
 import { ButtonLink } from "@/components/ui/button";
 import { practiceAreas } from "@/content/practice-areas";
 import { contactCta, sectionIds } from "@/content/site";
@@ -6,7 +7,12 @@ import { AreasIndex } from "./areas-index";
 
 export function Areas() {
   return (
-    <section id={sectionIds.areas} className="bg-paper-deep/60 py-28 md:py-44">
+    <section id={sectionIds.areas} className="relative isolate overflow-hidden bg-paper-deep/60 py-28 md:py-44">
+      {/* Mesa de trabajo como fondo sutil, solo detrás del encabezado; se funde con el papel hacia la lista. */}
+      <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-[34rem] opacity-[0.16] [mask-image:linear-gradient(to_bottom,black_35%,transparent)] md:h-[40rem]">
+        <ScrollCamera src="/images/photos/mesa-expediente.jpg" alt="" move="pan" imageClassName="photo" />
+      </div>
+
       <div className="shell">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
