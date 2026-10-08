@@ -20,7 +20,9 @@ const contentSecurityPolicy = [
   "media-src 'self'",
   "font-src 'self'",
   "connect-src 'self' https://vercel.live",
-  "frame-src https://maps.google.com https://www.google.com https://vercel.live",
+  // El mapa de Google redirige según país, red o sesión (google.com.co, accounts.google.com,
+  // consent.google.com…); se permiten todos los dominios de Google para el marco del mapa.
+  "frame-src https://*.google.com https://*.google.com.co https://google.com https://google.com.co https://vercel.live",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
