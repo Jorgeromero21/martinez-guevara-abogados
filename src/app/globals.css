@@ -98,10 +98,17 @@
     }
   }
 
-  /* Titulares: Bodoni de alto contraste, siempre en peso regular. */
+  /*
+    Titulares: Bodoni reforzada. Se fija el eje óptico en su versión de texto
+    (opsz 11), de trazos finos más gruesos, y peso 500: con el ajuste óptico
+    automático, en tamaños grandes los trazos finos se volvían tan delgados que
+    desaparecían en muchas pantallas Android.
+  */
   .serif {
     font-family: var(--font-serif);
-    font-weight: 400;
+    font-weight: 500;
+    font-optical-sizing: none;
+    font-variation-settings: "opsz" 11;
     letter-spacing: -0.02em;
     line-height: 1.02;
   }
