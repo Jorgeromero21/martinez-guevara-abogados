@@ -3,7 +3,7 @@ import type { ComponentProps } from "react";
 import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
 
-type Variant = "solid" | "outline" | "line";
+type Variant = "solid" | "line";
 type Tone = "ink" | "paper";
 
 type ButtonLinkProps = Omit<ComponentProps<"a">, "href"> & {
@@ -22,10 +22,6 @@ const variants: Record<Variant, Record<Tone, string>> = {
   solid: {
     ink: "h-14 px-8 bg-ink text-paper hover:bg-slate",
     paper: "h-14 px-8 bg-paper text-ink hover:bg-white",
-  },
-  outline: {
-    ink: "h-14 px-8 border border-line-strong text-ink hover:border-ink",
-    paper: "h-14 px-8 border border-on-night/35 text-on-night hover:border-on-night",
   },
   line: {
     ink: "tap pb-1.5 border-b border-ink/40 text-ink hover:border-ink",

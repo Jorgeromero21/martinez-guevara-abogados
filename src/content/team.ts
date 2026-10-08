@@ -9,7 +9,7 @@ export type TeamMember = {
   education: string[];
   bio: string;
   focus: string[];
-  photo: { src: string; width: number; height: number };
+  photo: { src: string };
 };
 
 export const team: TeamMember[] = [
@@ -24,7 +24,7 @@ export const team: TeamMember[] = [
     ],
     bio: "Más de diez años dedicados al litigio. Dirige la estrategia de los casos del despacho y ha representado a sus clientes en procesos de divorcio, ejecutivos, laborales, disciplinarios, administrativos y civiles.",
     focus: ["Civil", "Familia", "Disciplinario"],
-    photo: { src: "/images/team/alain-martinez.jpg", width: 1179, height: 1319 },
+    photo: { src: "/images/team/alain-martinez.jpg" },
   },
   {
     name: "Jefferson Torne Tamara",
@@ -35,6 +35,6 @@ export const team: TeamMember[] = [
     ],
     bio: "Más de cinco años de ejercicio profesional, con especial dedicación a las reclamaciones laborales y a los litigios contra entidades públicas.",
     focus: ["Laboral", "Administrativo"],
-    photo: { src: "/images/team/jefferson-torne.jpg", width: 1200, height: 1796 },
+    photo: { src: "/images/team/jefferson-torne.jpg" },
   },
 ];

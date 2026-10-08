@@ -133,10 +133,6 @@
     line-height: 1.02;
   }
 
-  .serif i {
-    font-style: italic;
-  }
-
   /* Rótulo de sección: versalitas espaciadas con un filete previo. */
   .label {
     display: inline-flex;
