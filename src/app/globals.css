@@ -1,26 +1,265 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------
+   Tokens de diseño
+   Paleta casi monocroma: papel hueso, tinta grafito y un único acento,
+   el azul pizarra del logotipo. Las fotografías van en blanco y negro
+   para que el conjunto se lea como una sola pieza.
+   ------------------------------------------------------------------ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #f5f3ef;
+  --paper-deep: #ebe7e0;
+  --ink: #161718;
+  --ink-soft: #3a3d40;
+  --muted: #6e6a64;
+  --line: rgb(22 23 24 / 0.12);
+  --line-strong: rgb(22 23 24 / 0.28);
+  --slate: #2b4450;
+  /* Mismo tono del logotipo (#283f49), aclarado para leerse sobre fondo oscuro. */
+  --slate-light: hsl(198 34% 60%);
+  --night: #111314;
+  --on-night: #efece6;
+  --on-night-muted: #9a978f;
+  --danger: #9b2c22;
+
+  /* Capas (z-index). No usar valores sueltos fuera de esta lista. */
+  --z-fab: 30;
+  --z-header: 40;
+  --z-menu: 50;
+  --z-intro: 70;
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-slate: var(--slate);
+  --color-night: var(--night);
+  --color-on-night: var(--on-night);
+  --color-on-night-muted: var(--on-night-muted);
+  --color-danger: var(--danger);
+
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-bodoni), "Didot", "Times New Roman", serif;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background: var(--slate);
+    color: var(--paper);
+  }
+
+  :focus-visible {
+    outline: 1.5px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 1360px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 3rem;
+    }
+  }
+
+  /* Titulares: Bodoni de alto contraste, siempre en peso regular. */
+  .serif {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+  }
+
+  .serif i {
+    font-style: italic;
+  }
+
+  /* Rótulo de sección: versalitas espaciadas con un filete previo. */
+  .label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.875rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .label::before {
+    content: "";
+    width: 2rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  /* Tratamiento fotográfico común. */
+  .photo {
+    filter: grayscale(1) contrast(1.05);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Intro: animación de entrada con el logotipo (al entrar; no al recargar).
+   0.00–0.60s  el monograma se descubre de abajo hacia arriba
+   0.25–0.95s  el nombre aparece mientras su espaciado se cierra
+   0.45–1.05s  se dibuja el filete; luego el descriptor
+   1.15–1.75s  el panel sube y descubre la portada
+   ------------------------------------------------------------------ */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-intro);
+  display: grid;
+  place-items: center;
+  background: var(--night);
+  color: var(--on-night);
+  pointer-events: none;
+  animation: intro-lift 0.6s cubic-bezier(0.77, 0, 0.175, 1) 1.15s forwards;
+}
+
+[data-intro="done"] .intro {
+  display: none;
+}
+
+.intro-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: intro-content-out 0.3s cubic-bezier(0.23, 1, 0.32, 1) 1.1s forwards;
+}
+
+/* El recorte deja margen negativo para no cortar el halo azul. */
+.intro-mark {
+  clip-path: inset(100% -40% -40% -40%);
+  animation: intro-mark 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+/* Toque de azul del logotipo: borde fino y halo suave alrededor del monograma. */
+.intro-mark img {
+  filter: drop-shadow(0 0 1.5px hsl(198 50% 62%)) drop-shadow(0 0 22px hsl(198 60% 52% / 0.55));
+}
+
+.intro-name {
+  opacity: 0;
+  letter-spacing: 0.42em;
+  animation: intro-name 0.7s cubic-bezier(0.23, 1, 0.32, 1) 0.25s forwards;
+}
+
+.intro-rule {
+  transform: scaleX(0);
+  animation: intro-rule 0.6s cubic-bezier(0.23, 1, 0.32, 1) 0.45s forwards;
+}
+
+.intro-descriptor {
+  opacity: 0;
+  animation: intro-fade 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0.6s forwards;
+}
+
+@keyframes intro-mark {
+  to {
+    clip-path: inset(-40% -40% -40% -40%);
+  }
+}
+
+@keyframes intro-name {
+  to {
+    opacity: 1;
+    letter-spacing: 0.16em;
+  }
+}
+
+@keyframes intro-rule {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes intro-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes intro-content-out {
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes intro-lift {
+  to {
+    transform: translateY(-100%);
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Sin desplazamientos: el logotipo aparece y el panel se desvanece. */
+  .intro {
+    animation: intro-fade-out 0.4s ease 0.8s forwards;
+  }
+
+  .intro-content {
+    animation: none;
+  }
+
+  .intro-mark,
+  .intro-name,
+  .intro-rule,
+  .intro-descriptor {
+    clip-path: none;
+    opacity: 1;
+    letter-spacing: 0.16em;
+    transform: none;
+    animation: none;
+  }
+}
+
+@keyframes intro-fade-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
