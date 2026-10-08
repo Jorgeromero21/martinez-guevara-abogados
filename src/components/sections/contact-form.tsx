@@ -49,15 +49,14 @@ export function ContactForm() {
       return;
     }
 
-    // Envío: abre WhatsApp (app o web) con la solicitud redactada. *texto* = negrita en WhatsApp.
+    // Envío: abre WhatsApp (app o web) con la solicitud redactada, presentándose con su nombre.
     const lines = [
-      "Hola, quisiera solicitar una consulta.",
+      `Hola, mi nombre es ${data.fullName} y quisiera solicitar una consulta.`,
       "",
-      `*Nombre:* ${data.fullName}`,
-      `*Correo:* ${data.email}`,
-      `*Área:* ${data.area || "Sin especificar"}`,
+      `Correo: ${data.email}`,
+      `Área: ${data.area || "Sin especificar"}`,
     ];
-    if (data.message) lines.push(`*Descripción:* ${data.message}`);
+    if (data.message) lines.push(`Descripción: ${data.message}`);
     window.open(whatsappUrl(lines.join("\n")), "_blank", "noopener");
     setSent(true);
   }
