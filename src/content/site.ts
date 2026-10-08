@@ -11,7 +11,7 @@ export const site = {
   title: "Martínez Guevara | Abogados & Consultores en Colombia",
   description:
     "Despacho de abogados en Colombia. Representación en derecho civil, de familia, laboral, administrativo y disciplinario, con estrategia precisa y trato directo con su abogado.",
-  url: "https://martinezguevara-abogados.vercel.app",
+  url: "https://mg-abogados-opal.vercel.app",
   locale: "es_CO",
 
   contact: {
