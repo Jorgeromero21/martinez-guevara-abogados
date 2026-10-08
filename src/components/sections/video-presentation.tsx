@@ -16,6 +16,7 @@ import { createPortal } from "react-dom";
 import { presentationVideo as video } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { easeOut } from "@/lib/motion";
+import { useModal } from "@/lib/use-modal";
 
 /** Estado que se traspasa entre la tarjeta y el visor ampliado. */
 type Handoff = { time: number; muted: boolean; playing: boolean };
@@ -38,6 +39,8 @@ export function VideoPresentation() {
   const [status, setStatus] = useState<Status>("idle");
   const [muted, setMuted] = useState(false);
   const [second, setSecond] = useState(0);
+  /** Duración real del archivo (s); hasta conocerla se muestra la de site.ts. */
+  const [length, setLength] = useState<number | null>(null);
   const [chromeVisible, setChromeVisible] = useState(true);
   const [expanded, setExpanded] = useState<Handoff | null>(null);
   const expandButton = useRef<HTMLButtonElement>(null);
@@ -86,7 +89,7 @@ export function VideoPresentation() {
     const v = videoRef.current;
     if (!v) return;
     if (v.paused || v.ended) {
-      void v.play();
+      v.play().catch(() => {}); // Interrumpido por una pausa (p. ej. salió de pantalla): no es un error.
       wake();
     } else {
       v.pause();
@@ -118,8 +121,7 @@ export function VideoPresentation() {
     setMuted(m);
     setSecond(Math.floor(time));
     if (barRef.current && v.duration) barRef.current.style.transform = `scaleX(${time / v.duration})`;
-    if (playing) void v.play();
-    expandButton.current?.focus();
+    if (playing) v.play().catch(() => {}); // Interrumpido por una pausa (p. ej. salió de pantalla): no es un error.
   }
 
   function seek(e: PointerEvent<HTMLDivElement>) {
@@ -134,7 +136,7 @@ export function VideoPresentation() {
   }
 
   const iconButton =
-    "grid size-10 shrink-0 place-items-center text-on-night transition-[background-color,transform] duration-150 ease-out hover:bg-on-night/15 active:scale-[0.94]";
+    "grid size-11 shrink-0 place-items-center text-on-night transition-[background-color,transform] duration-150 ease-out hover:bg-on-night/15 active:scale-[0.94]";
 
   return (
     // El ancho se limita para que la tarjeta (9:16) nunca supere el 76% del alto de la pantalla.
@@ -146,9 +148,9 @@ export function VideoPresentation() {
         <video
           ref={videoRef}
           src={video.src}
-          poster={video.poster}
           preload="none"
           playsInline
+          onLoadedMetadata={(e) => setLength(e.currentTarget.duration)}
           onClick={togglePlay}
           onPlay={() => setStatus("playing")}
           onPause={(e) => !e.currentTarget.ended && setStatus("paused")}
@@ -215,9 +217,9 @@ export function VideoPresentation() {
               tabIndex={0}
               aria-label="Progreso del video"
               aria-valuemin={0}
-              aria-valuemax={29}
+              aria-valuemax={Math.round(length ?? 0) || undefined}
               aria-valuenow={second}
-              aria-valuetext={`${formatTime(second)} de ${video.duration}`}
+              aria-valuetext={`${formatTime(second)} de ${length ? formatTime(length) : video.duration}`}
               onPointerDown={seek}
               onKeyDown={(e) => {
                 const v = videoRef.current;
@@ -227,7 +229,7 @@ export function VideoPresentation() {
                 if (barRef.current) barRef.current.style.transform = `scaleX(${v.currentTime / v.duration})`;
                 setSecond(Math.floor(v.currentTime));
               }}
-              className="mx-4 flex h-5 cursor-pointer items-center"
+              className="mx-4 -mb-3 flex h-11 cursor-pointer touch-none items-center"
             >
               <span className="relative block h-px w-full bg-on-night/30">
                 <span
@@ -248,7 +250,7 @@ export function VideoPresentation() {
                 {status === "playing" ? <Pause size={18} weight="fill" /> : <Play size={18} weight="fill" />}
               </button>
               <span className="px-1 text-xs tabular-nums text-on-night/80">
-                {formatTime(second)} / {video.duration}
+                {formatTime(second)} / {length ? formatTime(length) : video.duration}
               </span>
               <span className="flex-1" />
               <button
@@ -297,17 +299,9 @@ function ExpandedVideo({ handoff, onClose }: { handoff: Handoff | null; onClose:
     onClose(v ? { time: v.currentTime, muted: v.muted, playing: !v.paused && !v.ended } : handoff);
   }, [handoff, onClose]);
 
-  useEffect(() => {
-    if (!handoff) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = previous;
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [handoff, close]);
+  // Bloqueo de scroll, Escape, foco atrapado y devolución del foco al botón "Ampliar".
+  const dialog = useRef<HTMLDivElement>(null);
+  useModal(Boolean(handoff), close, dialog);
 
   // Portal al <body>: el visor no debe quedar dentro de contenedores animados.
   if (typeof document === "undefined") return null;
@@ -315,6 +309,7 @@ function ExpandedVideo({ handoff, onClose }: { handoff: Handoff | null; onClose:
     <AnimatePresence>
       {handoff && (
         <motion.div
+          ref={dialog}
           role="dialog"
           aria-modal="true"
           aria-label={`Presentación de ${video.speaker}`}

@@ -24,9 +24,6 @@ const bodoni = Bodoni_Moda({
   display: "swap",
 });
 
-const shareDescription =
-  "Representación en derecho civil, de familia, laboral, administrativo y disciplinario. Estrategia precisa y trato directo con su abogado.";
-
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: { default: site.title, template: `%s | ${site.name}` },
@@ -37,13 +34,13 @@ export const metadata: Metadata = {
     locale: site.locale,
     siteName: site.legalName,
     title: site.title,
-    description: shareDescription,
+    description: site.shareDescription,
     images: [{ url: "/images/og.png", width: 1200, height: 630, alt: site.legalName }],
   },
   twitter: {
     card: "summary_large_image",
     title: site.title,
-    description: shareDescription,
+    description: site.shareDescription,
     images: ["/images/og.png"],
   },
 };

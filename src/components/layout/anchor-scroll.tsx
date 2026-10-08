@@ -6,7 +6,7 @@ import { sectionIds } from "@/content/site";
 
 /** En móvil y tableta (columnas apiladas), "Contacto" lleva directo al formulario. */
 const STACKED_QUERY = "(max-width: 1023px)";
-const FORM_ID = "solicitud";
+const FORM_ID = sectionIds.contactForm;
 
 function resolveTarget(id: string) {
   if (id === sectionIds.contact && matchMedia(STACKED_QUERY).matches) {
@@ -50,8 +50,8 @@ export function AnchorScroll() {
       if (id) window.dispatchEvent(new HashChangeEvent("hashchange"));
 
       const go = () => (target ? target.scrollIntoView({ behavior: behavior(), block: "start" }) : window.scrollTo({ top: 0, behavior: behavior() }));
-      // Si un menú o visor tenía el scroll bloqueado, se espera a que lo libere.
-      if (document.body.style.overflow === "hidden") window.setTimeout(go, 80);
+      // Si un menú o visor tenía el scroll bloqueado (useModal), se espera a que lo libere.
+      if (document.documentElement.dataset.scrollLocked) window.setTimeout(go, 80);
       else requestAnimationFrame(go);
     }
 

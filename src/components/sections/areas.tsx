@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Reveal } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { practiceAreas } from "@/content/practice-areas";
+import { countWord } from "@/lib/format";
 import { contactCta, sectionIds } from "@/content/site";
 import { AreasIndex } from "./areas-index";
 
@@ -24,7 +25,7 @@ export function Areas() {
             </Reveal>
             <Reveal delay={0.05}>
               <h2 className="serif mt-8 text-[2.6rem] sm:text-6xl lg:text-[4.75rem]">
-                Cinco frentes, <i>un mismo estándar.</i>
+                {countWord(practiceAreas.length)} frentes, <i>un mismo estándar.</i>
               </h2>
             </Reveal>
           </div>

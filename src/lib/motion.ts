@@ -6,6 +6,5 @@
 export const easeOut = [0.22, 1, 0.36, 1] as const;
 
 export const duration = {
-  ui: 0.3,
   reveal: 1.1,
 } as const;

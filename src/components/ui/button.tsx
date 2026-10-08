@@ -28,8 +28,8 @@ const variants: Record<Variant, Record<Tone, string>> = {
     paper: "h-14 px-8 border border-on-night/35 text-on-night hover:border-on-night",
   },
   line: {
-    ink: "pb-1.5 border-b border-ink/40 text-ink hover:border-ink",
-    paper: "pb-1.5 border-b border-on-night/40 text-on-night hover:border-on-night",
+    ink: "tap pb-1.5 border-b border-ink/40 text-ink hover:border-ink",
+    paper: "tap pb-1.5 border-b border-on-night/40 text-on-night hover:border-on-night",
   },
 };
 

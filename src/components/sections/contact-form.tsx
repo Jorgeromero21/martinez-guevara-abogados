@@ -4,12 +4,10 @@ import { ArrowRight } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState, type FormEvent } from "react";
 import { practiceAreas } from "@/content/practice-areas";
+import { sectionIds } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { whatsappUrl } from "@/lib/contact";
 import { easeOut } from "@/lib/motion";
-
-/** Ancla del formulario: en móvil, los enlaces a "Contacto" llevan directo aquí (ver AnchorScroll). */
-export const formAnchor = "solicitud";
 
 type FieldName = "fullName" | "email" | "area" | "message";
 type Errors = Partial<Record<FieldName, string>>;
@@ -67,8 +65,8 @@ export function ContactForm() {
   const clear = (name: FieldName) => errors[name] && setErrors((prev) => ({ ...prev, [name]: undefined }));
 
   return (
-    <form id={formAnchor} noValidate onSubmit={onSubmit} className="scroll-mt-24 bg-paper-deep/70 p-7 sm:p-12">
-      <p className="text-[0.6875rem] uppercase tracking-[0.2em] text-muted">Solicitud de consulta</p>
+    <form id={sectionIds.contactForm} noValidate onSubmit={onSubmit} className="scroll-mt-3 bg-paper-deep/70 p-7 sm:p-12">
+      <p className="text-xs uppercase tracking-[0.2em] text-muted">Solicitud de consulta</p>
       <p className="serif mt-4 text-3xl">Cuéntenos lo esencial.</p>
 
       <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2">
@@ -90,8 +88,8 @@ export function ContactForm() {
           <select id="cf-area" name="area" defaultValue="" className={cn(inputClass, "border-line-strong")}>
             <option value="">Seleccione una opción</option>
             {practiceAreas.map((a) => (
-              <option key={a.slug} value={`Derecho ${a.name}`}>
-                Derecho {a.name}
+              <option key={a.slug} value={a.title}>
+                {a.title}
               </option>
             ))}
             <option value="Otro asunto">Otro asunto</option>
@@ -149,7 +147,7 @@ function Field({
 }) {
   return (
     <div className={cn("flex flex-col", className)}>
-      <label htmlFor={`cf-${name}`} className="text-[0.6875rem] uppercase tracking-[0.2em] text-muted">
+      <label htmlFor={`cf-${name}`} className="text-xs uppercase tracking-[0.2em] text-muted">
         {label}
       </label>
       {children}

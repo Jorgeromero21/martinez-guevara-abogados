@@ -2,12 +2,14 @@
 
 import { motion, useInView, useReducedMotion } from "motion/react";
 import { useRef, useSyncExternalStore } from "react";
+import { twoDigits } from "@/lib/format";
+import { easeOut } from "@/lib/motion";
 
 type Step = { title: string; body: string };
 
 /** Tiempo que tarda la barra en recorrer cada etapa (segundos). */
 const STEP_DURATION = 1.4;
-const ease = [0.22, 1, 0.36, 1] as const;
+const ease = easeOut;
 
 const ROW_QUERY = "(min-width: 1024px)";
 const subscribe = (cb: () => void) => {
@@ -84,16 +86,20 @@ function StepItem({
         />
       </div>
 
-      <motion.div
-        className="pt-8"
-        initial={false}
-        animate={{ opacity: active ? 1 : 0.35 }}
-        transition={active ? on(0.4, { ease }) : { duration: 0.2 }}
-      >
-        <span className="text-xs tabular-nums tracking-[0.2em] text-on-night-muted">ETAPA 0{index + 1}</span>
-        <h3 className="serif mt-10 text-4xl">{step.title}</h3>
+      {/*
+        La etapa pendiente no se atenúa entera (perdería contraste): solo el título pasa
+        de gris (6.3:1, legible) a blanco cuando la barra llega a ella.
+      */}
+      <div className="pt-8">
+        <span className="text-xs tabular-nums tracking-[0.2em] text-on-night-muted">ETAPA {twoDigits(index + 1)}</span>
+        <h3
+          className={`serif mt-10 text-4xl transition-colors duration-500 ease-[var(--ease-out)] ${active ? "text-on-night" : "text-on-night-muted"}`}
+          style={{ transitionDelay: active ? `${delay}s` : "0s" }}
+        >
+          {step.title}
+        </h3>
         <p className="mt-4 max-w-xs leading-relaxed text-on-night-muted">{step.body}</p>
-      </motion.div>
+      </div>
     </li>
   );
 }

@@ -48,13 +48,14 @@ export function Firm() {
             </Reveal>
 
             <Reveal delay={0.2} className="mt-16 lg:mb-14 lg:mt-auto">
-              <dl className="grid max-w-xl grid-cols-3 gap-4 border-t border-line-strong pt-8 sm:gap-6">
-                {facts.map((fact) => (
-                  <div key={fact.label}>
+              <dl className="grid max-w-xl grid-cols-2 gap-x-4 gap-y-8 border-t border-line-strong pt-8 min-[360px]:grid-cols-3 sm:gap-6">
+                {facts.map((fact, i) => (
+                  // En pantallas menores de 360 px la última cifra baja a su propia fila.
+                  <div key={fact.label} className={i === facts.length - 1 ? "col-span-2 min-[360px]:col-span-1" : undefined}>
                     <dt className="sr-only">{fact.label}</dt>
                     <dd>
                       <span className="serif block text-3xl leading-none sm:text-[2.6rem]">{fact.value}</span>
-                      <span className="mt-3 block text-[0.625rem] uppercase leading-snug tracking-[0.14em] text-muted sm:text-[0.6875rem] sm:tracking-[0.18em]">
+                      <span className="mt-3 block text-xs uppercase leading-snug tracking-[0.14em] text-muted sm:tracking-[0.18em]">
                         {fact.label}
                       </span>
                     </dd>

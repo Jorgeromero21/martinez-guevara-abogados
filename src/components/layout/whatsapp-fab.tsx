@@ -3,6 +3,7 @@
 import { WhatsappLogo } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useState } from "react";
+import { site } from "@/content/site";
 import { whatsappUrl } from "@/lib/contact";
 import { easeOut } from "@/lib/motion";
 
@@ -17,7 +18,7 @@ export function WhatsAppFab() {
     <AnimatePresence>
       {visible && (
         <motion.a
-          href={whatsappUrl("Buen día, quisiera agendar una consulta.")}
+          href={whatsappUrl(site.whatsappGreeting)}
           target="_blank"
           rel="noreferrer"
           aria-label="Escribir por WhatsApp"

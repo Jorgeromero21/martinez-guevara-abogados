@@ -48,7 +48,7 @@ export function Location() {
                   href={directionsUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="group/btn inline-flex h-12 flex-1 whitespace-nowrap items-center justify-center gap-2 bg-paper px-5 text-[0.75rem] font-medium uppercase tracking-[0.14em] text-ink transition-colors duration-300 hover:bg-white"
+                  className="group/btn inline-flex h-12 sm:flex-1 whitespace-nowrap items-center justify-center gap-2 bg-paper px-5 text-[0.75rem] font-medium uppercase tracking-[0.14em] text-ink transition-colors duration-300 hover:bg-white"
                 >
                   Cómo llegar
                   <ArrowUpRight size={14} aria-hidden className="transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" />
@@ -57,7 +57,7 @@ export function Location() {
                   href={mapsUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-12 flex-1 items-center justify-center gap-2 whitespace-nowrap border border-on-night/35 px-5 text-[0.75rem] uppercase tracking-[0.14em] transition-colors duration-300 hover:border-on-night"
+                  className="inline-flex h-12 sm:flex-1 items-center justify-center gap-2 whitespace-nowrap border border-on-night/35 px-5 text-[0.75rem] uppercase tracking-[0.14em] transition-colors duration-300 hover:border-on-night"
                 >
                   Abrir en Google Maps
                 </a>

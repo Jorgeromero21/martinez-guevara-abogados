@@ -11,6 +11,11 @@ export const site = {
   title: "Martínez Guevara | Abogados & Consultores en Colombia",
   description:
     "Despacho de abogados en Colombia. Representación en derecho civil, de familia, laboral, administrativo y disciplinario, con estrategia precisa y trato directo con su abogado.",
+  /** Texto corto para la vista previa al compartir el enlace (WhatsApp, redes). */
+  shareDescription:
+    "Representación en derecho civil, de familia, laboral, administrativo y disciplinario. Estrategia precisa y trato directo con su abogado.",
+  /** Mensaje ya escrito de los accesos generales a WhatsApp. */
+  whatsappGreeting: "Buen día, quisiera agendar una consulta.",
   url: "https://mg-abogados-opal.vercel.app",
   locale: "es_CO",
 
@@ -58,6 +63,8 @@ export const sectionIds = {
   method: "metodo",
   team: "equipo",
   contact: "contacto",
+  /** Formulario dentro de Contacto: destino de "Agendar" en móvil. */
+  contactForm: "solicitud",
   location: "ubicacion",
 } as const;
 

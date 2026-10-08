@@ -3,29 +3,27 @@
 import { X } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useRef } from "react";
 import { BrandLockup } from "@/components/ui/logo";
 import { contactCta, navigation, site } from "@/content/site";
 import { telUrl, whatsappUrl } from "@/lib/contact";
+import { twoDigits } from "@/lib/format";
 import { easeOut } from "@/lib/motion";
+import { useModal } from "@/lib/use-modal";
 
 type MobileMenuProps = { open: boolean; onClose: () => void };
 
-/** Menú a pantalla completa para móvil y tableta. Escape lo cierra y bloquea el scroll del fondo. */
+export const MOBILE_MENU_ID = "menu-movil";
+
+/**
+ * Menú a pantalla completa para móvil y tableta. Bloquea el scroll del fondo,
+ * mantiene el foco dentro (Tab circula), Escape lo cierra y, al cerrar, el
+ * foco vuelve al botón que lo abrió.
+ */
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
   const reduce = useReducedMotion();
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = previous;
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open, onClose]);
+  const panel = useRef<HTMLDivElement>(null);
+  useModal(open, onClose, panel);
 
   const links = [...navigation, { href: contactCta.href, label: "Contacto" }];
 
@@ -33,7 +31,8 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
     <AnimatePresence>
       {open && (
         <motion.div
-          id="menu-movil"
+          ref={panel}
+          id={MOBILE_MENU_ID}
           role="dialog"
           aria-modal="true"
           aria-label="Menú"
@@ -50,7 +49,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
               onClick={onClose}
               aria-label="Cerrar menú"
               autoFocus
-              className="flex h-11 items-center gap-2 text-[0.75rem] uppercase tracking-[0.18em]"
+              className="flex h-11 min-w-11 items-center justify-center gap-2 text-[0.75rem] uppercase tracking-[0.18em]"
             >
               Cerrar
               <X size={18} aria-hidden />
@@ -66,12 +65,8 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                 transition={{ duration: 0.6, delay: 0.06 + i * 0.05, ease: easeOut }}
                 className="border-b border-on-night/10"
               >
-                <Link
-                  href={item.href}
-                  onClick={onClose}
-                  className="flex items-baseline gap-5 py-4"
-                >
-                  <span className="w-6 text-xs tabular-nums text-on-night-muted">0{i + 1}</span>
+                <Link href={item.href} onClick={onClose} className="flex items-baseline gap-5 py-4">
+                  <span className="w-6 text-xs tabular-nums text-on-night-muted">{twoDigits(i + 1)}</span>
                   <span className="serif text-[2.4rem]">{item.label}</span>
                 </Link>
               </motion.div>

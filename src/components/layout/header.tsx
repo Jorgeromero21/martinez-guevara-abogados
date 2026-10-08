@@ -7,7 +7,7 @@ import { useState } from "react";
 import { BrandLockup } from "@/components/ui/logo";
 import { contactCta, navigation } from "@/content/site";
 import { cn } from "@/lib/cn";
-import { MobileMenu } from "./mobile-menu";
+import { MOBILE_MENU_ID, MobileMenu } from "./mobile-menu";
 
 /**
  * Cabecera fija.
@@ -35,7 +35,7 @@ export function Header() {
             : "border-b border-line bg-paper/90 text-ink backdrop-blur-md",
         )}
       >
-        <div className="shell flex h-20 items-center justify-between gap-8">
+        <div className="shell flex h-20 items-center justify-between gap-3 sm:gap-8">
           <BrandLockup tone={tone} />
 
           <nav aria-label="Navegación principal" className="hidden items-center gap-10 lg:flex">
@@ -43,7 +43,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-[0.75rem] uppercase tracking-[0.18em] opacity-75 transition-opacity duration-300 hover:opacity-100"
+                className="tap text-[0.75rem] uppercase tracking-[0.18em] opacity-75 transition-opacity duration-300 hover:opacity-100"
               >
                 {item.label}
               </Link>
@@ -67,8 +67,8 @@ export function Header() {
               onClick={() => setMenuOpen(true)}
               aria-label="Abrir menú"
               aria-expanded={menuOpen}
-              aria-controls="menu-movil"
-              className="flex h-11 items-center gap-3 text-[0.75rem] uppercase tracking-[0.18em] lg:hidden"
+              aria-controls={menuOpen ? MOBILE_MENU_ID : undefined}
+              className="flex h-11 min-w-11 items-center justify-center gap-3 text-[0.75rem] uppercase tracking-[0.18em] lg:hidden"
             >
               <span className="max-sm:sr-only">Menú</span>
               <span className="flex w-6 flex-col gap-[6px]" aria-hidden>

@@ -3,6 +3,8 @@ import { site } from "@/content/site";
 import { team } from "@/content/team";
 
 /** Datos estructurados para buscadores (schema.org LegalService). */
+const [locality, region] = site.contact.city.split(",").map((part) => part.trim());
+
 export function JsonLd() {
   const data = {
     "@context": "https://schema.org",
@@ -17,14 +19,14 @@ export function JsonLd() {
     address: {
       "@type": "PostalAddress",
       streetAddress: site.contact.office,
-      addressLocality: "Valledupar",
-      addressRegion: "Cesar",
+      addressLocality: locality,
+      addressRegion: region,
       addressCountry: "CO",
     },
     geo: { "@type": "GeoCoordinates", latitude: site.location.lat, longitude: site.location.lng },
     hasMap: site.location.mapsUrl,
     sameAs: [site.social.instagram.url],
-    knowsAbout: practiceAreas.map((area) => `Derecho ${area.name}`),
+    knowsAbout: practiceAreas.map((area) => area.title),
     employee: team.map((member) => ({
       "@type": "Person",
       name: member.name,

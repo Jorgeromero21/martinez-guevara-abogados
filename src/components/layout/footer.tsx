@@ -5,7 +5,7 @@ import { navigation, sectionIds, site } from "@/content/site";
 import { mailtoUrl, telUrl, whatsappUrl } from "@/lib/contact";
 import { CurrentYear } from "./current-year";
 
-const linkClass = "text-sm text-on-night-muted transition-colors duration-300 hover:text-on-night";
+const linkClass = "inline-block min-w-11 py-3 text-sm text-on-night-muted transition-colors duration-300 hover:text-on-night md:py-1.5";
 
 export function Footer() {
   return (
@@ -29,7 +29,7 @@ export function Footer() {
         <FooterColumn title="Especialidades" className="md:col-span-2">
           {practiceAreas.map((area) => (
             <Link key={area.slug} href={`/#${areaAnchor(area.slug)}`} className={linkClass}>
-              Derecho {area.name}
+              {area.title}
             </Link>
           ))}
         </FooterColumn>
@@ -58,7 +58,7 @@ export function Footer() {
           © <CurrentYear /> {site.legalName}
         </span>
         <span>La información de este sitio es general y no constituye asesoría jurídica.</span>
-        <Link href={`/#${sectionIds.home}`} className="transition-colors hover:text-on-night">
+        <Link href={`/#${sectionIds.home}`} className="tap transition-colors hover:text-on-night">
           Volver arriba ↑
         </Link>
       </div>
@@ -77,8 +77,8 @@ function FooterColumn({
 }) {
   return (
     <div className={className}>
-      <h2 className="mb-6 text-[0.6875rem] uppercase tracking-[0.22em] text-on-night">{title}</h2>
-      <div className="flex flex-col items-start gap-3">{children}</div>
+      <h2 className="mb-6 text-xs uppercase tracking-[0.22em] text-on-night">{title}</h2>
+      <div className="flex flex-col items-start">{children}</div>
     </div>
   );
 }

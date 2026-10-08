@@ -66,7 +66,7 @@ function Profile({ member }: { member: TeamMember }) {
             className="object-cover object-[center_18%] transition-transform duration-1000 ease-out group-hover:scale-[1.03]"
           />
           {lead && (
-            <span className="absolute bottom-0 left-0 bg-slate px-5 py-3 text-[0.6875rem] uppercase tracking-[0.22em] text-paper">
+            <span className="absolute bottom-0 left-0 bg-slate px-5 py-3 text-xs uppercase tracking-[0.22em] text-paper">
               Socio principal
             </span>
           )}
@@ -82,7 +82,7 @@ function Profile({ member }: { member: TeamMember }) {
         <h3 className="serif text-3xl md:text-4xl">{member.name}</h3>
         <p
           className={cn(
-            "shrink-0 text-[0.6875rem] uppercase tracking-[0.2em]",
+            "shrink-0 text-xs uppercase tracking-[0.2em]",
             lead ? "font-medium text-slate" : "text-muted",
           )}
         >
@@ -93,7 +93,7 @@ function Profile({ member }: { member: TeamMember }) {
       {member.highlight && (
         <p className="mt-6 flex items-baseline gap-3 text-slate">
           <span className="serif text-4xl leading-none">{member.highlight.value}</span>
-          <span className="text-[0.6875rem] uppercase tracking-[0.18em]">{member.highlight.label}</span>
+          <span className="text-xs uppercase tracking-[0.18em]">{member.highlight.label}</span>
         </p>
       )}
 
@@ -101,7 +101,7 @@ function Profile({ member }: { member: TeamMember }) {
 
       <dl className="mt-8 grid grid-cols-1 gap-6 text-sm sm:grid-cols-[1fr_auto] sm:gap-10">
         <div>
-          <dt className="text-[0.6875rem] uppercase tracking-[0.2em] text-muted">Formación</dt>
+          <dt className="text-xs uppercase tracking-[0.2em] text-muted">Formación</dt>
           {member.education.map((line) => (
             <dd key={line} className="mt-2 text-ink-soft">
               {line}
@@ -109,7 +109,7 @@ function Profile({ member }: { member: TeamMember }) {
           ))}
         </div>
         <div>
-          <dt className="text-[0.6875rem] uppercase tracking-[0.2em] text-muted">Enfoque</dt>
+          <dt className="text-xs uppercase tracking-[0.2em] text-muted">Enfoque</dt>
           <dd className="mt-2 text-ink-soft">{member.focus.join(" · ")}</dd>
         </div>
       </dl>

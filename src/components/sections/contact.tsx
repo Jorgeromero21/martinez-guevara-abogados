@@ -5,7 +5,7 @@ import { mailtoUrl, telUrl, whatsappUrl } from "@/lib/contact";
 import { ContactForm } from "./contact-form";
 
 const channels = [
-  { label: "WhatsApp", value: site.contact.whatsapp, href: whatsappUrl("Buen día, quisiera agendar una consulta."), external: true },
+  { label: "WhatsApp", value: site.contact.whatsapp, href: whatsappUrl(site.whatsappGreeting), external: true },
   { label: "Teléfono", value: site.contact.phone, href: telUrl() },
   { label: "Correo", value: site.contact.email, href: mailtoUrl() },
   { label: "Instagram", value: site.social.instagram.handle, href: site.social.instagram.url, external: true },
@@ -41,7 +41,7 @@ export function Contact() {
                     className="group flex items-center justify-between gap-6 py-5"
                   >
                     <span className="flex min-w-0 flex-1 flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-6">
-                      <span className="w-24 shrink-0 text-[0.6875rem] uppercase tracking-[0.2em] text-muted">
+                      <span className="w-24 shrink-0 text-xs uppercase tracking-[0.2em] text-muted">
                         {c.label}
                       </span>
                       <span className="min-w-0 text-[0.9375rem] text-ink [overflow-wrap:anywhere] sm:text-base">{c.value}</span>
@@ -59,7 +59,7 @@ export function Contact() {
               href={`#${sectionIds.location}`}
               className="group mt-8 block text-sm leading-relaxed text-muted transition-colors hover:text-ink"
             >
-              <span className="mb-1 block text-[0.6875rem] uppercase tracking-[0.2em]">Oficina</span>
+              <span className="mb-1 block text-xs uppercase tracking-[0.2em]">Oficina</span>
               {site.contact.office}, {site.contact.city}
               <span className="mt-2 block text-ink underline decoration-ink/30 underline-offset-4 group-hover:decoration-ink">
                 Ver en el mapa ↓

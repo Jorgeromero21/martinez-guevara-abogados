@@ -17,6 +17,8 @@
   --slate: #2b4450;
   /* Mismo tono del logotipo (#283f49), aclarado para leerse sobre fondo oscuro. */
   --slate-light: hsl(198 34% 60%);
+  --slate-edge: hsl(198 50% 62%);
+  --slate-glow: hsl(198 60% 52% / 0.55);
   --night: #111314;
   --on-night: #efece6;
   --on-night-muted: #9a978f;
@@ -73,6 +75,24 @@
     outline-offset: 4px;
   }
 
+  /* Tailwind v4 ya no pone la "manito" en los botones; se restaura. */
+  button:not(:disabled),
+  [role="button"],
+  [role="slider"],
+  select {
+    cursor: pointer;
+  }
+
+  /* Sin retardo de toque ni zoom por doble toque en controles. */
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  [role="slider"] {
+    touch-action: manipulation;
+  }
+
   h1,
   h2,
   h3 {
@@ -122,7 +142,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.875rem;
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.22em;
     text-transform: uppercase;
@@ -136,9 +156,76 @@
     opacity: 0.6;
   }
 
+  /*
+    Área táctil ampliada (mín. 44 px de alto) para enlaces de texto pequeños,
+    sin cambiar su aspecto: un pseudo-elemento invisible extiende la zona de toque.
+  */
+  .tap {
+    position: relative;
+  }
+
+  .tap::after {
+    content: "";
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    top: 50%;
+    height: max(100%, 44px);
+    transform: translateY(-50%);
+  }
+
   /* Tratamiento fotográfico común. */
   .photo {
     filter: grayscale(1) contrast(1.05);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Portada. El contenido es visible desde el primer pintado.
+   - Con intro (al entrar al sitio): la intro lo revela al subir; solo la
+     foto se asienta (zoom) a la par que el panel sube.
+   - Sin intro (recarga / atrás, data-intro="done"): entra con un fundido.
+   - Al volver desde otra página del sitio no hay animación ni espera.
+   ------------------------------------------------------------------ */
+[data-intro="done"] .hero-enter {
+  animation: hero-enter 1.2s var(--ease-out) var(--d, 0s) both;
+}
+
+.hero-zoom {
+  animation: hero-zoom 2.4s var(--ease-out) 1.15s both;
+}
+
+[data-intro="done"] .hero-zoom {
+  animation-delay: 0s;
+}
+
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-zoom {
+    animation: none;
+  }
+
+  [data-intro="done"] .hero-enter {
+    animation-name: hero-fade;
+    animation-duration: 0.4s;
+  }
+}
+
+@keyframes hero-fade {
+  from {
+    opacity: 0;
   }
 }
 
@@ -180,7 +267,7 @@
 
 /* Toque de azul del logotipo: borde fino y halo suave alrededor del monograma. */
 .intro-mark img {
-  filter: drop-shadow(0 0 1.5px hsl(198 50% 62%)) drop-shadow(0 0 22px hsl(198 60% 52% / 0.55));
+  filter: drop-shadow(0 0 1.5px var(--slate-edge)) drop-shadow(0 0 22px var(--slate-glow));
 }
 
 .intro-name {

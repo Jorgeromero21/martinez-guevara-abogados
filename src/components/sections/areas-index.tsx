@@ -4,12 +4,13 @@ import { ArrowUpRight } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { ButtonLink } from "@/components/ui/button";
 import { areaAnchor, areaWhatsappMessage, type PracticeArea } from "@/content/practice-areas";
 import { contactCta } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { whatsappUrl } from "@/lib/contact";
+import { twoDigits } from "@/lib/format";
 import { easeOut } from "@/lib/motion";
 
 /**
@@ -19,6 +20,8 @@ import { easeOut } from "@/lib/motion";
  */
 export function AreasIndex({ areas }: { areas: PracticeArea[] }) {
   const [open, setOpen] = useState<string | null>(null);
+  const recenter = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(recenter.current), []);
   const id = useId();
 
   // Abre la ficha indicada en la URL (enlaces desde la portada o el pie).
@@ -37,7 +40,8 @@ export function AreasIndex({ areas }: { areas: PracticeArea[] }) {
     setOpen(opening ? slug : null);
     if (!opening) return;
     // Si otra ficha se cierra por encima, la fila se desplaza: la devolvemos a la vista.
-    window.setTimeout(() => {
+    window.clearTimeout(recenter.current);
+    recenter.current = window.setTimeout(() => {
       const top = row.getBoundingClientRect().top;
       if (top < 80 || top > window.innerHeight * 0.45) {
         row.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -59,7 +63,7 @@ export function AreasIndex({ areas }: { areas: PracticeArea[] }) {
               onClick={(e) => toggle(area.slug, e.currentTarget.parentElement!)}
               className="group grid w-full grid-cols-[2rem_minmax(0,1fr)_auto] items-baseline gap-x-3 py-8 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto] sm:gap-x-4 text-left md:grid-cols-[4rem_1fr_1fr_auto] md:py-10"
             >
-              <span className="text-xs tabular-nums text-muted">0{i + 1}</span>
+              <span className="text-xs tabular-nums text-muted">{twoDigits(i + 1)}</span>
               <span
                 className={cn(
                   "serif text-[1.85rem] transition-[color,transform] duration-500 ease-out [overflow-wrap:anywhere] sm:text-5xl md:text-6xl lg:text-7xl",
@@ -80,7 +84,7 @@ export function AreasIndex({ areas }: { areas: PracticeArea[] }) {
                 <motion.div
                   id={panelId}
                   role="region"
-                  aria-label={`Derecho ${area.name}`}
+                  aria-label={area.title}
                   className="overflow-hidden"
                   initial={{ height: 0 }}
                   animate={{ height: "auto", transition: { duration: 0.75, ease: easeOut } }}
@@ -169,7 +173,7 @@ function AreaDetail({ area }: { area: PracticeArea }) {
 
         <motion.div className="md:col-start-3" variants={stagger} initial="hidden" animate="shown">
           <motion.p variants={item} className="label text-muted">
-            Derecho {area.name}
+            {area.title}
           </motion.p>
           <motion.h3 variants={item} className="serif mt-6 text-3xl md:text-4xl lg:text-[2.75rem]">
             {area.headline}
@@ -178,7 +182,7 @@ function AreaDetail({ area }: { area: PracticeArea }) {
             {area.description}
           </motion.p>
 
-          <motion.p variants={item} className="mt-10 text-[0.6875rem] uppercase tracking-[0.2em] text-muted">
+          <motion.p variants={item} className="mt-10 text-xs uppercase tracking-[0.2em] text-muted">
             En qué intervenimos
           </motion.p>
           <motion.ul variants={item} className="mt-4 flex flex-wrap gap-2">
@@ -203,7 +207,7 @@ function AreaDetail({ area }: { area: PracticeArea }) {
           <motion.div variants={item} className="mt-8">
             <Link
               href={`/areas/${area.slug}`}
-              className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink"
+              className="tap group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink"
             >
               Abrir en página propia
               <ArrowUpRight size={14} aria-hidden className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

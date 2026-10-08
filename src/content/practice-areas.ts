@@ -6,7 +6,10 @@
  */
 export type PracticeArea = {
   slug: string;
+  /** Nombre corto para índices y títulos grandes ("Familia"). */
   name: string;
+  /** Nombre completo de la rama ("Derecho de Familia"). */
+  title: string;
   /** Línea breve para el índice de la portada. */
   summary: string;
   /** Titular de la página de detalle. */
@@ -21,6 +24,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: "derecho-civil",
     name: "Civil",
+    title: "Derecho Civil",
     summary: "Contratos, patrimonio, deudas y responsabilidad.",
     headline: "Lo que se pacta, se cumple. Y lo que es suyo, se defiende.",
     description:
@@ -44,6 +48,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: "derecho-de-familia",
     name: "Familia",
+    title: "Derecho de Familia",
     summary: "Divorcio, alimentos, custodia y bienes de la pareja.",
     headline: "Decisiones que cambian una vida merecen calma y firmeza.",
     description:
@@ -65,6 +70,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: "derecho-laboral",
     name: "Laboral",
+    title: "Derecho Laboral",
     summary: "Contratos de trabajo, pensión, salud y riesgos laborales.",
     headline: "Su trabajo genera derechos. Nos aseguramos de que se respeten.",
     description:
@@ -84,6 +90,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: "derecho-administrativo",
     name: "Administrativo",
+    title: "Derecho Administrativo",
     summary: "Reclamaciones frente a entidades del Estado.",
     headline: "Frente al Estado, también hay caminos para reclamar.",
     description:
@@ -102,6 +109,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: "derecho-disciplinario",
     name: "Disciplinario",
+    title: "Derecho Disciplinario",
     summary: "Defensa de servidores públicos y profesionales.",
     headline: "Su trayectoria merece una defensa a la altura.",
     description:
@@ -120,7 +128,7 @@ export const practiceAreas: PracticeArea[] = [
 
 /** Mensaje de WhatsApp ya escrito según la especialidad (p. ej. "…asesoría en derecho civil."). */
 export const areaWhatsappMessage = (area: PracticeArea) =>
-  `Hola, me interesa una asesoría en derecho ${area.name.toLowerCase()}.`;
+  `Hola, me interesa una asesoría en ${area.title.toLowerCase()}.`;
 
 /** Ancla de cada especialidad en la portada: /#area-<slug> abre su ficha desplegable. */
 export const areaAnchor = (slug: string) => `area-${slug}`;
