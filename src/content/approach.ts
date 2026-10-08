@@ -1,7 +1,7 @@
 /** Compromisos del despacho (sección "Despacho"). */
 export const commitments = [
   {
-    title: "Diagnóstico franco",
+    title: "Asesorías reales",
     body: "Antes de iniciar cualquier actuación le decimos qué es viable, qué no lo es y por qué.",
   },
   {

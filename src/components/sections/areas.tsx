@@ -1,5 +1,5 @@
+import Image from "next/image";
 import { Reveal } from "@/components/motion/reveal";
-import { ScrollCamera } from "@/components/motion/scroll-camera";
 import { ButtonLink } from "@/components/ui/button";
 import { practiceAreas } from "@/content/practice-areas";
 import { contactCta, sectionIds } from "@/content/site";
@@ -8,9 +8,12 @@ import { AreasIndex } from "./areas-index";
 export function Areas() {
   return (
     <section id={sectionIds.areas} className="relative isolate overflow-hidden bg-paper-deep/60 py-28 md:py-44">
-      {/* Mesa de trabajo como fondo sutil, solo detrás del encabezado; se funde con el papel hacia la lista. */}
-      <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-[34rem] opacity-[0.16] [mask-image:linear-gradient(to_bottom,black_35%,transparent)] md:h-[40rem]">
-        <ScrollCamera src="/images/photos/mesa-expediente.jpg" alt="" move="pan" imageClassName="photo" />
+      {/*
+        Pilas de expedientes como fondo sutil, solo detrás del encabezado; se funde con el papel
+        hacia la lista. Ligeramente desenfocada para que no se lea ninguna anotación.
+      */}
+      <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-[34rem] overflow-hidden opacity-[0.16] [mask-image:linear-gradient(to_bottom,black_35%,transparent)] md:h-[40rem]">
+        <Image src="/images/photos/expedientes.jpg" alt="" fill sizes="100vw" className="photo scale-105 object-cover blur-[2px]" />
       </div>
 
       <div className="shell">
